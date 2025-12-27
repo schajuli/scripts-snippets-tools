@@ -6,8 +6,8 @@ echo -------------------------------------
 echo Git-Sync-Skript (Clean and Fast)
 echo -------------------------------------
 
-:: 1. Verzeichnis prüfen
-set "REPO_DIR=%~dp0"
+:: 1. Verzeichnis des Aufrufs nutzen (WICHTIG WENN SKRIPT VIA PATH AUSGEFÜHRT WIRD!)
+set "REPO_DIR=%CD%"
 cd /d "%REPO_DIR%"
 
 :: 2. Pull
