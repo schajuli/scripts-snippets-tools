@@ -1,0 +1,27 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robustes Dateikopieren fÅr Windows                              
+-------------------------------------------------------------------------------
+
+  Gestartet: Sonntag, 9. MÑrz 2025 22:03:18
+   Quelle = G:\.shortcut-targets-by-id\1--107pPEpyGtpINvQl6VpEh7mKGHyIxx\TwoDrive\FH Workspace\LTS Workspace\05_VO Workspace\
+     Ziel : D:\SyncthingXL\SYNC-MASS-STORAGE\WORK\FH-SYNC\LTS Workspace 1.0\05_VO Workspace\
+
+    Dateien : *.*
+	    
+  Optionen: *.* /X /FP /NS /NC /NDL /L /DCOPY:DA /COPY:DAT /NP /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	  			D:\SyncthingXL\SYNC-MASS-STORAGE\WORK\FH-SYNC\LTS Workspace 1.0\05_VO Workspace\PW - Kopie.txt
+	  			G:\.shortcut-targets-by-id\1--107pPEpyGtpINvQl6VpEh7mKGHyIxx\TwoDrive\FH Workspace\LTS Workspace\05_VO Workspace\Overthefence2 - Kopie.png
+
+------------------------------------------------------------------------------
+
+           Insgesamt   KopiertöbersprungenKeine öbereinstimmung    FEHLER    Extras
+Verzeich.:         1         0         1         0         0         0
+  Dateien:         6         1         5         0         0         1
+    Bytes:   169.5 k    82.2 k    87.2 k         0         0        12
+   Zeiten:   0:00:00   0:00:00                       0:00:00   0:00:00
+   Beendet: Sonntag, 9. MÑrz 2025 22:03:18
+

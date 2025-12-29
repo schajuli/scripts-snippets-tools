@@ -1,0 +1,26 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robustes Dateikopieren fÅr Windows                              
+-------------------------------------------------------------------------------
+
+  Gestartet: Sonntag, 9. MÑrz 2025 22:24:44
+   Quelle = G:\Meine Ablage\ADOBE X1 Workspace\
+     Ziel : D:\SyncthingXL\SYNC-MASS-STORAGE\EXCHANGE\ADOBE X1 Workspace\
+
+    Dateien : *.*
+	    
+  Optionen: *.* /X /FP /NS /NC /NDL /L /DCOPY:DA /COPY:DAT /NP /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+	  			D:\SyncthingXL\SYNC-MASS-STORAGE\EXCHANGE\ADOBE X1 Workspace\desktop.ini
+
+------------------------------------------------------------------------------
+
+           Insgesamt   KopiertöbersprungenKeine öbereinstimmung    FEHLER    Extras
+Verzeich.:         1         0         1         0         0         0
+  Dateien:         1         0         1         0         0         1
+    Bytes:    30.4 k         0    30.4 k         0         0       246
+   Zeiten:   0:00:00   0:00:00                       0:00:00   0:00:00
+   Beendet: Sonntag, 9. MÑrz 2025 22:24:44
+

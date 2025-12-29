@@ -1,0 +1,28 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robustes Dateikopieren für Windows                              
+-------------------------------------------------------------------------------
+
+  Gestartet: Sonntag, 9. März 2025 22:06:05
+   Quelle - G:\.shortcut-targets-by-id\1--107pPEpyGtpINvQl6VpEh7mKGHyIxx\TwoDrive\FH Workspace\LTS Workspace\05_VO Workspace\
+     Ziel - D:\SyncthingXL\SYNC-MASS-STORAGE\WORK\FH-SYNC\LTS Workspace 1.0\05_VO Workspace\
+
+    Dateien : 
+  Optionen: /X /FP /NS /NC /NDL /L /DCOPY:DA /COPY:DAT /NP /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+FEHLER: Ungültiger Parameter #11 : "/UNILOG"
+
+    Einfache Syntax :: ROBOCOPY Quelle Ziel /MIR
+
+             Quelle :: Quellverzeichnis (Laufwerk:\Pfad oder
+                       \\Server\Freigabe\Pfad)
+               Ziel :: Zielverzeichnis (Laufwerk:\Pfad oder
+                       \\Server\Freigabe\Pfad)
+               /MIR :: Spiegelt eine vollständige Verzeichnisstruktur.
+
+    Weitere Informationen erhalten Sie über den Befehl "ROBOCOPY /?"
+
+                                                          
+**** Der Befehl "/MIR" kann Dateien sowohl kopieren als auch LÖSCHEN.
