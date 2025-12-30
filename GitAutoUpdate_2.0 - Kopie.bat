@@ -10,42 +10,10 @@ echo -------------------------------------
 set "REPO_DIR=%CD%"
 cd /d "%REPO_DIR%"
 
-:: 2. Fetch
-echo 1. Fetching latest changes...
-echo.
-git fetch
-if %ERRORLEVEL% neq 0 (echo Fehler beim Fetch! & pause & exit)
-
-:: 3. Prüfen, ob lokaler Branch behind/ ahead ist
-for /f %%i in ('git rev-list --count HEAD..origin/main') do set "BEHIND=%%i"
-for /f %%i in ('git rev-list --count origin/main..HEAD') do set "AHEAD=%%i"
-
-:: Änderungen anzeigen, falls behind oder ahead
-if %BEHIND% NEQ 0 (
-    echo Dein lokaler Branch ist hinter 'origin/main' um %BEHIND% Commits!
-)
-if %AHEAD% NEQ 0 (
-    echo Achtung: Dein lokaler Branch ist ahead von 'origin/main' um %AHEAD% Commits!
-    echo Du solltest diese Änderungen pushen, bevor du pullst.
-)
-
-if %BEHIND% NEQ 0 if %AHEAD% EQU 0 echo.
-echo Überblick über die Änderungen:
-echo.
-git diff --stat origin/main
-echo.
-
-:: 4. Pull
-if %BEHIND% NEQ 0 (
-    set /p "CONFIRM_PULL=Fortfahren mit Pull? [J/N] (Enter=Ja): "
-    if /I "%CONFIRM_PULL%"=="N" exit
-    echo 2. Pulling latest changes...
-    git pull
-    if %ERRORLEVEL% neq 0 (echo Fehler beim Pull! & pause & exit)
-) else (
-    echo Kein Pull nötig. Branch auf aktuellem Stand.
-)
-
+:: 2. Pull
+echo 1. Pulling...
+git pull
+if %ERRORLEVEL% neq 0 (echo Fehler beim Pull! & pause & exit)
 
 :: 3. Status Check
 git status --porcelain > temp_status.txt
@@ -62,7 +30,7 @@ if not defined HAS_CHANGES (
 echo.
 git status -s
 echo.
-set /p "CONFIRM=Lokale Änderungen erkannt. Fortfahren mit Commit? [J/N] (Enter für Ja): "
+set /p "CONFIRM=Änderungen erkannt. Fortfahren? [J/N] (Enter für Ja): "
 if /I "%CONFIRM%"=="N" exit
 
 :: 4. Add
@@ -70,7 +38,7 @@ git add .
 
 :: 5. Message-Logik (UTF8 ohne BOM-Fragezeichen)
 echo.
-echo Geben Sie die Commit-Message ein (Bestätigen mit Enter - kein Text für d. Auto-Message):
+echo Geben Sie die Nachricht ein (Bestätigen mit Enter - kein Text für Auto-Message):
 :: Wir nutzen New-Object UTF8Encoding($false) um das BOM-Symbol wegzulassen
 powershell -NoProfile -Command "$m = Read-Host; if([string]::IsNullOrWhiteSpace($m)){$m='Auto-commit %date% %time%'}; $utf8NoBom = New-Object System.Text.UTF8Encoding($false); [System.IO.File]::WriteAllLines('c_msg.tmp', $m, $utf8NoBom)"
 
