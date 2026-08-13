@@ -1,7 +1,6 @@
 @echo off
 chcp 65001 >nul
 setlocal enabledelayedexpansion
-mode con: cols=150 lines=9999
 
 echo -------------------------------------
 echo Git-Sync-Skript (Clean and Fast)
@@ -33,7 +32,7 @@ if %AHEAD% NEQ 0 (
 if %BEHIND% NEQ 0 if %AHEAD% EQU 0 echo.
 echo Überblick über die Änderungen:
 echo.
-git diff --stat origin/main | more
+git diff --stat origin/main
 echo.
 
 :: 4. Pull
@@ -61,7 +60,7 @@ if not defined HAS_CHANGES (
 )
 
 echo.
-git status -s | more
+git status -s
 echo.
 set /p "CONFIRM=Lokale Änderungen erkannt. Fortfahren mit Commit? [J/N] (Enter für Ja): "
 if /I "%CONFIRM%"=="N" exit
