@@ -2,14 +2,8 @@
     ode-solibri-voight-kampff-manifest-updater.ps1
 
     Erstellt ein Manifest (manifest.json) aus allen .jar-Dateien
-    im "AKTUELL"-Ordner (nur diese Ebene, KEINE Unterordner), speichert
-    es ZUSAETZLICH als Sicherungskopie DIREKT in diesem Ordner (neben den
-    Jars) und pusht es danach wie gewohnt in ein OEFFENTLICHES GitHub-Repo.
-
-    ABLAUF:
-    1. Manifest lokal erzeugen
-    2. Manifest-Kopie DIREKT in $WatchPath speichern (Sicherheitskopie)
-    3. Manifest auf GitHub veroeffentlichen (wie bisher)
+    im "AKTUELL"-Ordner (nur diese Ebene, KEINE Unterordner) und pusht
+    dieses Manifest in ein OEFFENTLICHES GitHub-Repo.
 
     WICHTIG: Diese Version vergleicht NUR ueber den DATEINAMEN
     (in dem laut Konvention die Versionsnummer steckt, z.B.
@@ -62,9 +56,6 @@ $GithubToken = $env:GITHUB_MANIFEST_TOKEN
 
 $ManifestLocalPath = Join-Path $env:TEMP "manifest.json"
 
-# NEU: Pfad der Sicherungskopie DIREKT im AKTUELL-Ordner (neben den Jars)
-$ManifestBackupInWatchPath = Join-Path $WatchPath $ManifestRepoPath
-
 
 function New-Manifest {
     Write-Host "=== Schritt 1: Jars einlesen (nur Dateiname/Metadaten, kein Hash) ===" -ForegroundColor Cyan
@@ -88,11 +79,6 @@ function New-Manifest {
     #  $WatchPath beruecksichtigt. Unterordner (egal wie sie heissen
     #  oder was drin liegt) und Nicht-Jar-Dateien auf oberster Ebene
     #  werden komplett ignoriert.
-    #
-    #  WICHTIG (NEU): Die "manifest.json"-Sicherungskopie, die dieses
-    #  Skript selbst in $WatchPath ablegt, wird hier automatisch NICHT
-    #  mit erfasst, da -Filter *.jar ohnehin nur .jar-Dateien liefert -
-    #  die eigene Manifest-Kopie stoert sich also nicht selbst.
     # ------------------------------------------------------------
     $jars = Get-ChildItem -LiteralPath $WatchPath -Filter *.jar -File
 
@@ -127,33 +113,12 @@ function New-Manifest {
     $json = $manifest | ConvertTo-Json -Depth 5
     Set-Content -LiteralPath $ManifestLocalPath -Value $json -Encoding UTF8
 
-    Write-Host "`nManifest lokal erzeugt (temporaer, fuer Upload): $ManifestLocalPath" -ForegroundColor Green
-
-    return $json
-}
-
-
-function Save-ManifestBackupInWatchPath {
-    param([string]$Json)
-
-    Write-Host "`n=== Schritt 2: Sicherungskopie direkt im AKTUELL-Ordner speichern ===" -ForegroundColor Cyan
-
-    # WICHTIG: Diese Sicherungskopie ist NICHT kritisch fuer die eigentliche
-    # Funktion (der Client liest ja von GitHub) - schlaegt das Schreiben
-    # hier fehl (z.B. Netzlaufwerk kurz nicht schreibbar, Berechtigung),
-    # wird das nur als Warnung angezeigt und der GitHub-Push danach trotzdem
-    # normal fortgesetzt.
-    try {
-        Set-Content -LiteralPath $ManifestBackupInWatchPath -Value $Json -Encoding UTF8
-        Write-Host "Sicherungskopie gespeichert: $ManifestBackupInWatchPath" -ForegroundColor Green
-    } catch {
-        Write-Warning "Sicherungskopie konnte NICHT im AKTUELL-Ordner gespeichert werden ($($_.Exception.Message)) - GitHub-Push wird trotzdem fortgesetzt."
-    }
+    Write-Host "`nManifest lokal erzeugt: $ManifestLocalPath" -ForegroundColor Green
 }
 
 
 function Publish-ManifestToGithub {
-    Write-Host "`n=== Schritt 3: Manifest auf GitHub pushen ===" -ForegroundColor Cyan
+    Write-Host "`n=== Schritt 2: Manifest auf GitHub pushen ===" -ForegroundColor Cyan
 
     if ([string]::IsNullOrWhiteSpace($GithubToken)) {
         throw "GITHUB_MANIFEST_TOKEN ist nicht gesetzt. Bitte gemaess Setup-Anleitung als User-Umgebungsvariable anlegen und Terminal neu starten."
@@ -199,8 +164,7 @@ function Publish-ManifestToGithub {
 #  Ablauf
 # ============================================================
 try {
-    $manifestJson = New-Manifest
-    Save-ManifestBackupInWatchPath -Json $manifestJson
+    New-Manifest
     Publish-ManifestToGithub
     Write-Host "`n=== FERTIG ===" -ForegroundColor Green
 } catch {
